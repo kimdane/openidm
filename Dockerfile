@@ -5,14 +5,14 @@
 # this FROM line instead:
 # FROM registry.access.redhat.com/rhel 
 # Pull the rhel image from the local repository
-FROM rhel
+FROM conductdocker/rhel7
 
 MAINTAINER Kim Daniel Engebretsen 
 
 # Update image
-RUN yum update -y
-RUN yum install -y unzip openssl java-1.7.0-openjdk #-devel # java-1.7.0-oracle-devel
-RUN yum clean all
+#RUN yum update -y
+#RUN yum install -y unzip openssl java-1.7.0-openjdk #-devel # java-1.7.0-oracle-devel
+#RUN yum clean all
 
 ENV ADMIN_PW Secret1
 ENV KEYSTORE_PW Secret1
