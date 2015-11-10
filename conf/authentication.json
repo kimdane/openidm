@@ -8,18 +8,48 @@
                 "keystoreType" : "&{openidm.keystore.type}",
                 "keystoreFile" : "&{openidm.keystore.location}",
                 "keystorePassword" : "&{openidm.keystore.password}",
-                "maxTokenLifeMinutes" : "1",
-                "tokenIdleTimeMinutes" : "1",
+                "maxTokenLifeMinutes" : "120",
+                "tokenIdleTimeMinutes" : "30",
                 "sessionOnly" : true
             }
         },
         "authModules" : [
             {
+                "name" : "INTERNAL_USER",
+                "properties" : {
+                    "queryId" : "credential-internaluser-query",
+                    "queryOnResource" : "repo/internal/user",
+                    "propertyMapping" : {
+                        "authenticationId" : "username",
+                        "userCredential" : "password",
+                        "userRoles" : "roles"
+                    },
+                    "defaultUserRoles" : [ ]
+                },
+                "enabled" : true
+            },
+            {
+                "name" : "MANAGED_USER",
+                "properties" : {
+                    "queryId" : "credential-query",
+                    "queryOnResource" : "managed/user",
+                    "propertyMapping" : {
+                        "authenticationId" : "username",
+                        "userCredential" : "password",
+                        "userRoles" : "authzRoles"
+                    },
+                    "defaultUserRoles" : [ ]
+                },
+                "enabled" : true
+            },
+            {
                 "name" : "OPENAM_SESSION",
                 "properties" : {
-                    "openamDeploymentUrl" : "http://am:8080/sso",
+                    "openamDeploymentUrl" : "http://am:80/sso",
                     "groupRoleMapping" : {
-                        "openidm-admin" : [ ]
+                        "openidm-admin" : [
+                            "cn=idmAdmins,ou=Groups,dc=opendj,dc=no"
+                        ]
                     },
                     "openamSSOTokenCookieName" : "iPlanetDirectoryPro",
                     "openamUserAttribute" : "uid",
@@ -41,21 +71,7 @@
                     "truststoreFile" : "&{openidm.truststore.location}",
                     "truststorePassword" : "&{openidm.truststore.password}"
                 },
-                "enabled" : true
-            },
-            {
-                "name" : "INTERNAL_USER",
-                "properties" : {
-                    "queryId" : "credential-internaluser-query",
-                    "queryOnResource" : "repo/internal/user",
-                    "propertyMapping" : {
-                        "authenticationId" : "username",
-                        "userCredential" : "password",
-                        "userRoles" : "roles"
-                    },
-                    "defaultUserRoles" : [ ]
-                },
-                "enabled" : true
+                "enabled" : false
             }
         ]
     }

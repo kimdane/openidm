@@ -9,7 +9,7 @@ FROM conductdocker/rhel7
 
 MAINTAINER Kim Daniel Engebretsen 
 
-# Update image
+# Update image (done in base image)
 #RUN yum update -y
 #RUN yum install -y unzip openssl java-1.7.0-openjdk #-devel # java-1.7.0-oracle-devel
 #RUN yum clean all
@@ -19,9 +19,13 @@ ENV KEYSTORE_PW Secret1
 
 RUN mkdir -p /opt/openidm
 WORKDIR /opt/openidm
-ADD openidm-3.1.0.zip /opt/openidm/
-RUN unzip openidm-3.1.0.zip -d /opt/
-ADD . /opt/openidm/
-RUN rm -rf samples; rm openidm-3.1.0.zip;
+ADD openidm.zip /opt/openidm/
+RUN unzip openidm.zip -d /opt/
+RUN mv -f samples/fullStack/conf/* conf/;mv -f samples/fullStack/conf/boot/* conf/boot/; mv -f samples/fullStack/script/* script/; rm -rf samples; rm openidm.zip;
+ADD run.sh /opt/openidm/run.sh
+ADD conf/prov* conf/
+ADD conf/sync.json conf/
+ADD conf/authentication.json conf/
 
+EXPOSE 8443 8080
 CMD ["/opt/openidm/run.sh"]

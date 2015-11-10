@@ -7,7 +7,7 @@
     },
     "configurationProperties" : {
         "host" : "dj",
-        "port" : 1389,
+        "port" : 389,
         "ssl" : false,
         "principal" : "cn=Directory Manager",
         "credentials" : "Secret1",
@@ -51,7 +51,7 @@
         ],
         "groupMemberAttribute" : "uniqueMember",
         "passwordHashAlgorithm" : null,
-        "usePagedResultControl" : false,
+        "usePagedResultControl" : true,
         "blockSize" : 100,
         "uidAttribute" : "dn",
         "maintainLdapGroupMembership" : false,
@@ -98,6 +98,11 @@
                 "cn" : {
                     "type" : "string",
                     "nativeName" : "cn",
+                    "nativeType" : "string"
+                },
+                "employeeType" : {
+                    "type" : "string",
+                    "nativeName" : "employeeType",
                     "nativeType" : "string"
                 },
                 "description" : {
