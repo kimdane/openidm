@@ -2,4 +2,5 @@
 
 Mount your custom config on /opt/openidm/conf.
 
-Set up to work like the fullStack example
+
+Ready for fullStack example of ForgeRocks Identity Stack Dockerized
