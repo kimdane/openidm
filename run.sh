@@ -39,6 +39,14 @@ if [ -s "$file" ]; then
 	rm /opt/openidm/conf/repo.orientdb.json
 fi
 
+file=/opt/repo/ssl/combined.pem
+if [ -s "$file" ]; then
+	export FQDN=$(openssl x509 -noout -subject -in /opt/repo/ssl/combined.pem | sed "s/^.*CN=\*\./iam./" | sed "s/^.*CN=//" | sed "s/\/.*$//")
+	export DOMAIN=$(echo $FQDN | sed "s/[^\.]*\.//")
+	cat /opt/openidm/conf/authentication.json | sed 's/iam.example.com/'$DOMAINNAME'/' | sed 's/example.com/'$DOMAIN'/' > /opt/openidm/conf/authentication.json
+fi
+
+
 #dir=/opt/repo/openidm/security/
 #if [ -e "$dir" ]; then
 #	/opt/openidm/startup.sh -P /opt/repo/openidm
