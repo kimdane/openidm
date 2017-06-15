@@ -11,8 +11,7 @@ else
    	/tmp/getnightly.sh openidm
 fi
 
-zip -d staging/openidm.zip "openidm/samples"
-unzip staging/openidm.zip
+unzip staging/openidm.zip -x *samples*
 rm -f staging/openidm.zip
 
 # Copy directories from repo if available
