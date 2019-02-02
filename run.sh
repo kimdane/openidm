@@ -32,10 +32,15 @@ if [ -e "$dir" ]; then
 	cp -rv /opt/repo/openidm/script/* /opt/openidm/script/
 fi
 
-# Remove the Orient DB and use postgres as DB if it is configured
+# Remove the Orient DB in older releases and use postgres as DB if it is configured
 file=/opt/openidm/conf/repo.jdbc.json
 if [ -s "$file" ]; then
 	rm /opt/openidm/conf/repo.orientdb.json
+fi
+
+file=/opt/openidm/resolver/boot.properties
+if [ -s "$file" ]; then
+	sed -i 's/openidm.host=localhost/openidm.host=iam.example.com/' /opt/openidm/resolver/boot.properties
 fi
 
 file=/opt/repo/ssl/combined.pem
@@ -44,7 +49,6 @@ if [ -s "$file" ]; then
 	export DOMAIN=$(echo $FQDN | sed "s/[^\.]*\.//")
 	cat /opt/openidm/conf/authentication.json | sed 's/iam.example.com/'$DOMAINNAME'/' | sed 's/example.com/'$DOMAIN'/' > /opt/openidm/conf/authentication.json
 fi
-
 
 #dir=/opt/repo/openidm/security/
 #if [ -e "$dir" ]; then
