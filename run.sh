@@ -1,6 +1,11 @@
 #!/bin/bash
 
 cd /opt
+
+dir=/opt/repo/openidm/bundle/
+if [ -e "$dir" ]; then
+	cp -rv /opt/repo/openidm /opt/openidm
+else
 mkdir staging
 file=/opt/repo/bin/staging/openidm.zip
 if [ -s "$file" ]; then
@@ -38,17 +43,20 @@ if [ -s "$file" ]; then
 	rm /opt/openidm/conf/repo.orientdb.json
 fi
 
-file=/opt/openidm/resolver/boot.properties
-if [ -s "$file" ]; then
-	sed -i 's/openidm.host=localhost/openidm.host=iam.example.com/' /opt/openidm/resolver/boot.properties
-fi
-
 file=/opt/repo/ssl/combined.pem
 if [ -s "$file" ]; then
 	export FQDN=$(openssl x509 -noout -subject -in /opt/repo/ssl/combined.pem | sed "s/^.*CN=\*\./iam./" | sed "s/^.*CN=//" | sed "s/\/.*$//")
 	export DOMAIN=$(echo $FQDN | sed "s/[^\.]*\.//")
 	cat /opt/openidm/conf/authentication.json | sed 's/iam.example.com/'$DOMAINNAME'/' | sed 's/example.com/'$DOMAIN'/' > /opt/openidm/conf/authentication.json
 fi
+
+fi
+
+file=/opt/openidm/resolver/boot.properties
+if [ -s "$file" ]; then
+	sed -i 's/openidm.host=localhost/openidm.host=iam.example.com/' /opt/openidm/resolver/boot.properties
+fi
+
 
 #dir=/opt/repo/openidm/security/
 #if [ -e "$dir" ]; then
