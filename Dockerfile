@@ -1,10 +1,16 @@
 FROM java:8
 
-MAINTAINER kim@conduct.no
+MAINTAINER kimdane
+WORKDIR /opt
+
+ENV openidm=/opt/openidm
+ENV openidmconf=/opt/repo/openidm
+ENV openidmbin=/opt/repo/bin/openidm
+ENV openidmzip=/opt/repo/bin/zip/openidm.zip
 
 EXPOSE 8080
 
-ADD run.sh /opt/run.sh
+ADD run-openidm.sh /opt/run-openidm.sh
 VOLUME ["/opt/repo"]
 
-CMD ["/opt/run.sh"]
+CMD  ["/opt/run-openidm.sh"]
