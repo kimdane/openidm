@@ -21,6 +21,11 @@ if [ -e "$openidmconf" ]; then
 	cp -r $openidmconf/* $openidm/
 fi
 
+# Remove OpenDJ as repo, use postgres instead
+if [ -s "$openidm/conf/repo.ds.json" ]; then
+	rm $openidm/conf/repo.ds.json
+fi
+
 # Get fully qualified domain name from SSL certificate
 cert=/opt/repo/ssl/combined.pem
 file=$openidm/resolver/boot.properties
