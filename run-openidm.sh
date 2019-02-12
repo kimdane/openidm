@@ -35,4 +35,5 @@ if [ -s "$cert" ] && [ -s "$file" ]; then
 fi
 
 cd $openidm
+sleep 5
 ./startup.sh
